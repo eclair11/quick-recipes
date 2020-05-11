@@ -1,2 +1,8 @@
 # quick-recipes
-Projet personnel de fin du Master 1
+
+## Front-end (Spring)
+- ???
+## Back-end (Angular)
+- ???
+## Database (MySQL)
+- ???
