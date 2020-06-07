@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Recipe } from '../model/recipe';
+import { RecipeService } from '../service/recipe.service';
+
 @Component({
   selector: 'app-display',
   templateUrl: './display.component.html',
@@ -7,9 +10,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DisplayComponent implements OnInit {
 
-  constructor() { }
+  recipe = new Recipe();
+
+  constructor(private service: RecipeService) { }
 
   ngOnInit() {
+    this.recipe = this.service.getRecipe(1);
   }
 
 }

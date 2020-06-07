@@ -1,1 +1,86 @@
-<p>display works!</p>
+<h1 class="text-center mt-3 mb-3">{{recipe.name}}</h1>
+
+<mat-tab-group mat-align-tabs="center" class="text-center">
+
+    <mat-tab label="Introduction">
+        <div class="container">
+            <div class="row justify-content-center">
+                <table class="table col">
+                    <tbody>
+                        <tr>
+                            <td>Région</td>
+                            <td>{{recipe.region}}</td>
+                        </tr>
+                        <tr>
+                            <td>Date de découverte</td>
+                            <td>{{recipe.discovery}}</td>
+                        </tr>
+                        <tr>
+                            <td>Auteur de la recette</td>
+                            <td>{{recipe.author}}</td>
+                        </tr>
+                        <tr>
+                            <td>Catégorie</td>
+                            <td>
+                                <h5>
+                                    <span *ngFor="let cat of recipe.categories"
+                                        class="badge badge-pill badge-primary">{{cat}}</span>
+                                </h5>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="card card-custom col">
+                    <div class="card-body">
+                        <h4 class="card-title text-center">Histoire</h4>
+                        <p>{{recipe.history}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-tab>
+
+    <mat-tab label="Images">
+        <div class="container">
+            <div class="row">
+                <div *ngFor="let pic of recipe.pictures" class="col-6">
+                    <img class="img img-thumbnail" alt="img" [src]="pic">
+                </div>
+            </div>
+        </div>
+    </mat-tab>
+
+    <mat-tab label="Ingrédients et préparation">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="card card-custom col">
+                    <div class="card-body">
+                        <h4 class="card-title text-center">Les ingrédients</h4>
+                        <mat-list role="list">
+                            <mat-list-item *ngFor="let ing of recipe.ingredients" role="listitem">{{ing}}
+                            </mat-list-item>
+                        </mat-list>
+                    </div>
+                </div>
+                <div class="card card-custom col">
+                    <div class="card-body">
+                        <h4 class="card-title text-center">Méthode de préparation</h4>
+                        <mat-list role="list">
+                            <mat-list-item *ngFor="let prep of recipe.preparation" role="listitem">{{prep}}
+                            </mat-list-item>
+                        </mat-list>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-tab>
+
+    <mat-tab label="Valeurs nutritionnelles">
+        -
+    </mat-tab>
+
+    <mat-tab label="Recommandation IA">
+        -
+    </mat-tab>
+
+</mat-tab-group>

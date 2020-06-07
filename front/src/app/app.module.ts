@@ -1,26 +1,38 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatCardModule } from '@angular/material/card';
+import { MatListModule } from '@angular/material/list';
 
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { ListComponent } from './recipe/list/list.component';
-import { DisplayComponent } from './recipe/display/display.component';
 import { InscriptionComponent } from './user/inscription/inscription.component';
 import { ConnectionComponent } from './user/connection/connection.component';
-import { AppRoutingModule } from './app-routing.module';
+import { ListComponent } from './recipe/list/list.component';
+import { DisplayComponent } from './recipe/display/display.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    ListComponent,
-    DisplayComponent,
     InscriptionComponent,
-    ConnectionComponent
+    ConnectionComponent,
+    ListComponent,
+    DisplayComponent
   ],
   imports: [
+    AppRoutingModule,
+    FormsModule,
+    HttpClientModule,
     BrowserModule,
-    AppRoutingModule
+    BrowserAnimationsModule,
+    MatTabsModule,
+    MatCardModule,
+    MatListModule
   ],
   providers: [],
   bootstrap: [AppComponent]

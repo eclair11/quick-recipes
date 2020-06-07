@@ -13,3 +13,6 @@ target/
 .settings
 .springBeans
 .sts4-cache
+
+# Images
+src/main/resources/static/img
