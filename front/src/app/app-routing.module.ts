@@ -13,7 +13,7 @@ const routes: Routes = [
   { path: 'user/inscription', component: InscriptionComponent },
   { path: 'user/connection', component: ConnectionComponent },
   { path: 'recipe/list', component: ListComponent },
-  { path: 'recipe/display', component: DisplayComponent }
+  { path: 'recipe/display/:id', component: DisplayComponent }
 ];
 
 @NgModule({

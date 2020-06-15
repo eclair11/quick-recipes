@@ -1,16 +1,32 @@
-<form>
-    What's your favourite Picnic CSS feature?
+<h1 class="text-center mt-3 mb-3">Liste des recettes</h1>
 
-    <label>
-        <select name="feature">
-            <option value="semantic"> Semantic HTML5 </option>
-            <option value="lightweight"> Lightweight </option>
-            <option value="css3"> Only CSS3 </option>
-            <option value="responsive"> Responsive </option>
-        </select>
-    </label>
+<div class="container">
+  <div *ngFor="let rec of recipes" class="card card-custom view zoom">
+    <a href="/recipe/display/{{rec.id}}">
+      <div class="row card-body">
+        <img class="img col-2" alt="img" [src]="rec.pictures[0]">
+        <h4 class="align-self-center col-10">{{rec.name}}</h4>
+      </div>
+    </a>
+  </div>
+</div>
 
-    <input type="email" placeholder="Email to receive updates">
-
-    <button class="primary"> Subscribe! </button>
-</form>
+<nav aria-label="Pagination">
+  <ul class="pagination justify-content-center">
+    <li class="page-item">
+      <a class="page-link" (click)="actualpage != 1 && getListRecipes(actualpage - 1)" aria-label="Précédent">
+        <span aria-hidden="true">&laquo;</span>
+        <span class="sr-only">Précédent</span>
+      </a>
+    </li>
+    <li *ngFor="let page of pages" class="page-item">
+      <a class="page-link" (click)="actualpage != page && getListRecipes(page)">{{page}}</a>
+    </li>
+    <li class="page-item">
+      <a class="page-link" (click)="actualpage != getPages() && getListRecipes(actualpage + 1)" aria-label="Suivant">
+        <span aria-hidden="true">&raquo;</span>
+        <span class="sr-only">Suivant</span>
+      </a>
+    </li>
+  </ul>
+</nav>

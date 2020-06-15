@@ -8,10 +8,34 @@ import { Recipe } from '../model/recipe';
 })
 export class RecipeService {
 
+  constructor(private http: HttpClient) { }
+
   home: string = 'http://localhost:8080';
   loading: boolean = false;
 
-  constructor(private http: HttpClient) { }
+  getListRecipes = (page: number, recipes: Recipe[], pages: number[]): void => {
+    this.loading = true;
+    this.http.get(this.home + '/api/v1/recipes/list/' + page).subscribe(
+      (data) => {
+        let objects = JSON.parse(JSON.stringify(data));
+        for (let object of objects['list'][0]) {
+          const recipe = new Recipe();
+          recipe.id = object['id'];
+          recipe.name = object['name'];
+          recipe.pictures = object['pictures'];
+          recipes.push(recipe);
+        }
+        for (let i = 1; i <= objects['total'][0]; i++) {
+          pages.push(i);
+        }
+        this.loading = false;
+      },
+      (error) => {
+        console.log(error);
+        this.loading = false;
+      }
+    );
+  }
 
   getRecipe = (id: number): Recipe => {
     this.loading = true;
