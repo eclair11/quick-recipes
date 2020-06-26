@@ -3,11 +3,11 @@ package fr.ujm.quick_recipes.model;
 import java.util.List;
 
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 @Entity
 public class Recipe {
@@ -20,24 +20,23 @@ public class Recipe {
     private String region;
     private String discovery;
     private String author;
+    private String calorie;
+    private String picture;
 
-    @Column(columnDefinition="TEXT")
+    @Column(columnDefinition = "TEXT")
     private String history;
 
-    @ElementCollection(targetClass = String.class)
+    @Transient
     private List<String> categories;
 
-    @ElementCollection(targetClass = String.class)
+    @Transient
     private List<String> pictures;
 
-    @ElementCollection(targetClass = String.class)
+    @Transient
     private List<String> ingredients;
 
-    @ElementCollection(targetClass = String.class)
-    private List<String> preparation;
-
-    @ElementCollection(targetClass = String.class)
-    private List<String> nutritionals;
+    @Transient
+    private List<String> preparations;
 
     public Recipe() {
     }
@@ -56,14 +55,6 @@ public class Recipe {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getHistory() {
-        return history;
-    }
-
-    public void setHistory(String history) {
-        this.history = history;
     }
 
     public String getRegion() {
@@ -90,6 +81,30 @@ public class Recipe {
         this.author = author;
     }
 
+    public String getCalorie() {
+        return calorie;
+    }
+
+    public void setCalorie(String calorie) {
+        this.calorie = calorie;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
+    public String getHistory() {
+        return history;
+    }
+
+    public void setHistory(String history) {
+        this.history = history;
+    }
+
     public List<String> getCategories() {
         return categories;
     }
@@ -114,20 +129,12 @@ public class Recipe {
         this.ingredients = ingredients;
     }
 
-    public List<String> getPreparation() {
-        return preparation;
+    public List<String> getPreparations() {
+        return preparations;
     }
 
-    public void setPreparation(List<String> preparation) {
-        this.preparation = preparation;
-    }
-
-    public List<String> getNutritionals() {
-        return nutritionals;
-    }
-
-    public void setNutritionals(List<String> nutritionals) {
-        this.nutritionals = nutritionals;
+    public void setPreparations(List<String> preparations) {
+        this.preparations = preparations;
     }
 
 }

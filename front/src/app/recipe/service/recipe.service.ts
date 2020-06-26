@@ -13,19 +13,18 @@ export class RecipeService {
   home: string = 'http://localhost:8080';
   loading: boolean = false;
 
-  getListRecipes = (page: number, recipes: Recipe[], pages: number[]): void => {
+  getListRecipes = (type: string, key: string, page: number, recipes: Recipe[], pages: number[]): void => {
     this.loading = true;
-    this.http.get(this.home + '/api/v1/recipes/list/' + page).subscribe(
+    this.http.get(this.home + '/api/v1/recipes/list/' + type + '/' + key + '/' + page).subscribe(
       (data) => {
-        let objects = JSON.parse(JSON.stringify(data));
-        for (let object of objects['list'][0]) {
+        for (let i = 0; i < data['recipes'][0].length; i++) {
           const recipe = new Recipe();
-          recipe.id = object['id'];
-          recipe.name = object['name'];
-          recipe.pictures = object['pictures'];
+          recipe.id = data['recipes'][0][i][0];
+          recipe.name = data['recipes'][0][i][1];
+          recipe.picture = data['recipes'][0][i][2];
           recipes.push(recipe);
         }
-        for (let i = 1; i <= objects['total'][0]; i++) {
+        for (let i = 1; i <= data['pages'][0]; i++) {
           pages.push(i);
         }
         this.loading = false;
@@ -47,12 +46,13 @@ export class RecipeService {
         recipe.region = data['region'];
         recipe.discovery = data['discovery'];
         recipe.author = data['author'];
+        recipe.calorie = data['calorie'];
+        recipe.picture = data['picture'];
         recipe.history = data['history'];
         recipe.categories = data['categories'];
         recipe.pictures = data['pictures'];
         recipe.ingredients = data['ingredients'];
-        recipe.preparation = data['preparation'];
-        recipe.nutritionals = data['nutritionals'];
+        recipe.preparations = data['preparations'];
         this.loading = false;
       },
       (error) => {

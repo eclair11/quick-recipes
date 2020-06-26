@@ -20,6 +20,10 @@
               <td>{{recipe.author}}</td>
             </tr>
             <tr>
+              <td>Calories</td>
+              <td>{{recipe.calorie}}</td>
+            </tr>
+            <tr>
               <td>Catégorie</td>
               <td>
                 <h5>
@@ -64,16 +68,12 @@
           <div class="card-body">
             <h4 class="card-title text-center">Méthode de préparation</h4>
             <mat-list role="list">
-              <mat-list-item *ngFor="let prep of recipe.preparation" role="listitem">{{prep}}</mat-list-item>
+              <mat-list-item *ngFor="let prep of recipe.preparations" role="listitem">{{prep}}</mat-list-item>
             </mat-list>
           </div>
         </div>
       </div>
     </div>
-  </mat-tab>
-
-  <mat-tab label="Valeurs nutritionnelles">
-    -
   </mat-tab>
 
   <mat-tab label="Recommandation IA">

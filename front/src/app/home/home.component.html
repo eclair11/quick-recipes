@@ -1,1 +1,136 @@
-<p>home works!</p>
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand js-scroll-trigger" href="#intro">Intro</a>
+    <button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded"
+      type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive"
+      aria-expanded="false" aria-label="Toggle navigation">Menu<i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+            href="#search">Recherche de recette</a></li>
+        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+            href="#catreg">Liste des recettes</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Masthead -->
+<header class="masthead bg-primary text-white text-center">
+  <div class="container d-flex align-items-center flex-column">
+    <!-- Masthead Avatar Image -->
+    <img class="masthead-avatar mb-5" src="assets/img/fast-food.svg" alt="" />
+    <!-- Masthead Heading -->
+    <h1 class="masthead-heading text-uppercase mb-0">Quick Recipes</h1>
+    <!-- Icon Divider -->
+    <div class="divider-custom divider-light">
+      <div class="divider-custom-line"></div>
+      <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+      <div class="divider-custom-line"></div>
+    </div>
+    <!-- Masthead Subheading -->
+    <p class="masthead-subheading font-weight-light mb-0">
+      Une application qui permette à n'importe quel utilisateur d'accéder instantanément aux différentes informations
+      d'une recette de cuisine sans le besoin d'être inscrit.
+    </p>
+  </div>
+</header>
+
+<!-- Search Section -->
+<section class="page-section" id="search">
+  <div class="container">
+    <!-- Search Section Heading -->
+    <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Recherche de recette</h2>
+    <!-- Icon Divider-->
+    <div class="divider-custom">
+      <div class="divider-custom-line"></div>
+      <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+      <div class="divider-custom-line"></div>
+    </div>
+    <!-- Search Section Items -->
+    <h5 class="text-center">Rechercher une recette par nom.</h5>
+    <div class="form-row">
+      <form class="form-inline justify-content-center col" [formGroup]="searchNormal" (ngSubmit)="searchingNormal()">
+        <i class="fas fa-search" aria-hidden="true"></i>
+        <input class="form-control mt-3 mb-3 ml-3 col-11" type="text" formControlName="search" aria-label="Rechercher">
+        <div class="col-1">
+          <button class="btn btn-primary" type="submit">Valider</button>
+        </div>
+      </form>
+    </div>
+    <div class="mt-5 mb-5"></div>
+    <h5 class="text-center">
+      Rechercher une recette par ingrédients. Chaque ingrédient doit être séparé par une virgule.
+    </h5>
+    <h5 class="text-center">
+      Exemple : eau, sucre, orange.
+    </h5>
+    <div class="form-row">
+      <form class="form-inline justify-content-center col" [formGroup]="searchSpecial" (ngSubmit)="searchingSpecial()">
+        <i class="fas fa-search" aria-hidden="true"></i>
+        <input class="form-control mt-3 mb-3 ml-3 col-11" type="text" formControlName="search" aria-label="Rechercher">
+        <div class="col-1">
+          <button class="btn btn-primary" type="submit">Valider</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- Category/Region Section -->
+<section class="page-section bg-primary text-white mb-0" id="catreg">
+  <div class="container">
+    <!-- Category/Region Section Heading -->
+    <h2 class="page-section-heading text-center text-uppercase text-white">Liste des recettes</h2>
+    <!-- Icon Divider-->
+    <div class="divider-custom divider-light">
+      <div class="divider-custom-line"></div>
+      <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+      <div class="divider-custom-line"></div>
+    </div>
+    <!-- Category/Region Section Items -->
+    <div class="row">
+      <h5 class="text-center text-uppercase mb-0 col-5">par catégorie</h5>
+      <span class="col-2"></span>
+      <h5 class="text-center text-uppercase mb-0 col-5">par région</h5>
+      <div class="mb-5"></div>
+      <table class="table table-striped text-white text-center col-5">
+        <tbody>
+          <tr *ngFor="let category of categories">
+            <td (click)="searchingCategory(category)">{{category}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <span class="col-2"></span>
+      <table class="table table-striped text-white text-center col-5">
+        <tbody>
+          <tr *ngFor="let region of regions">
+            <td (click)="searchingRegion(region)">{{region}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- Copyright Section -->
+<div class="copyright py-4 text-center text-white">
+  <div class="container">
+    <div>
+      Icons made by
+      <a href="https://www.flaticon.com/authors/wanicon" title="wanicon">wanicon</a>
+      from
+      <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+    </div>
+    <div>Copyright © Quick Recipes 2020</div>
+  </div>
+</div>
+
+<!-- Scroll to Top Button (Only visible on small and extra-small screen sizes) -->
+<div class="scroll-to-top d-lg-none position-fixed">
+  <a class="js-scroll-trigger d-block text-center text-white rounded" href="#intro">
+    <i class="fa fa-chevron-up"></i>
+  </a>
+</div>

@@ -5,12 +5,13 @@ export class Recipe {
   region: string;
   discovery: string;
   author: string;
+  calorie: string;
+  picture: string;
   history: string;
   categories: string[];
   pictures: string[];
   ingredients: string[];
-  preparation: string[];
-  nutritionals: string[];
+  preparations: string[];
 
   constructor() { }
 

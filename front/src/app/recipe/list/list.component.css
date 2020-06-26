@@ -1,5 +1,5 @@
 .card-custom {
-  background: white;
+  background: #fff;
   border-radius: 4px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12), 0 0 6px 0 rgba(0, 0, 0, 0.04);
   margin: 20px 0 20px 0;
@@ -10,11 +10,16 @@
   height: 125px;
 }
 
+.page-item:hover {
+  color: #fff;
+}
+
 a {
-  color: black;
+  color: #000;
 }
 
 a:hover {
-  background-color: gold;
+  color: #fff;
+  background-color: #6f42c1;
   text-decoration: none;
 }

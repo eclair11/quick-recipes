@@ -4,7 +4,7 @@
   <div *ngFor="let rec of recipes" class="card card-custom view zoom">
     <a href="/recipe/display/{{rec.id}}">
       <div class="row card-body">
-        <img class="img col-2" alt="img" [src]="rec.pictures[0]">
+        <img class="img col-2" alt="img" [src]="rec.picture">
         <h4 class="align-self-center col-10">{{rec.name}}</h4>
       </div>
     </a>
