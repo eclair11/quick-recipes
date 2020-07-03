@@ -1,6 +1,7 @@
 package fr.ujm.quick_recipes.api;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -29,6 +30,9 @@ public class RecipeController {
 
     private static final int PAGE_SIZE = 10;
 
+    private String requestRecipes = "";
+    private String requestPages = "";
+
     @PersistenceContext
     EntityManager entityManager;
 
@@ -53,10 +57,24 @@ public class RecipeController {
     public ResponseEntity<MultiValueMap<String, Object>> getListRecipes(@PathVariable String type,
             @PathVariable String key, @PathVariable int page) {
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-        String requestRecipes = "Select r.id, r.name, r.picture From Recipe r Where r.name LIKE '%" + key + "%'";
-        String requestPages = "Select count(r.id) From Recipe r Where r.name LIKE '%" + key + "%'";
-        Query queryRecipes = entityManager.createQuery(requestRecipes);
-        Query queryPages = entityManager.createQuery(requestPages);
+        switch (type) {
+            case "normal":
+                requestNormal(key);
+                break;
+            case "special":
+                requestSpecial(key);
+                break;
+            case "category":
+                requestCategory(key);
+                break;
+            case "region":
+                requestRegion(key);
+                break;
+            default:
+                break;
+        }
+        Query queryRecipes = entityManager.createQuery(this.requestRecipes);
+        Query queryPages = entityManager.createQuery(this.requestPages);
         queryRecipes.setFirstResult((page - 1) * PAGE_SIZE);
         queryRecipes.setMaxResults(PAGE_SIZE);
         List<Object> recipes = castList(Object.class, queryRecipes.getResultList());
@@ -84,7 +102,37 @@ public class RecipeController {
         return ResponseEntity.status(HttpStatus.OK).body(recipe);
     }
 
-    public static <T> List<T> castList(Class<? extends T> clazz, Collection<?> c) {
+    private void requestNormal(String key) {
+        this.requestRecipes = "Select r.id, r.name, r.picture From Recipe r Where r.name LIKE '%" + key + "%'";
+        this.requestPages = "Select count(r.id) From Recipe r Where r.name LIKE '%" + key + "%'";
+    }
+
+    private void requestSpecial(String key) {
+        List<String> keys = new ArrayList<>();
+        for (String k : key.split(",")) {
+            keys.add("\"*" + k.trim() + "*\"");
+        }
+        key = String.join(" OR ", keys);
+        System.err.println(key);
+        this.requestRecipes = "Select r.id, r.name, r.picture From Recipe r, Ingredient i Where r.id = i.recipe AND "
+                + "i.name IN (SELECT name From Ingredient Where " + key + ")";
+        this.requestPages = "Select count(r.id) From Recipe r, Ingredient i Where r.id = i.recipe AND i.name IN (" + key
+                + ")";
+    }
+
+    private void requestCategory(String key) {
+        this.requestRecipes = "Select r.id, r.name, r.picture From Recipe r, Category c Where r.id = c.recipe AND c.name LIKE '%"
+                + key + "%'";
+        this.requestPages = "Select count(r.id) From Recipe r, Category c Where r.id = c.recipe AND c.name LIKE '%"
+                + key + "%'";
+    }
+
+    private void requestRegion(String key) {
+        this.requestRecipes = "Select r.id, r.name, r.picture From Recipe r Where r.region LIKE '%" + key + "%'";
+        this.requestPages = "Select count(r.id) From Recipe r Where r.region LIKE '%" + key + "%'";
+    }
+
+    private static <T> List<T> castList(Class<? extends T> clazz, Collection<?> c) {
         List<T> r = new ArrayList<T>(c.size());
         for (Object o : c) {
             r.add(clazz.cast(o));
