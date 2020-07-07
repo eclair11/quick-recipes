@@ -10,19 +10,19 @@ import { MatListModule } from '@angular/material/list';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { InscriptionComponent } from './user/inscription/inscription.component';
-import { ConnectionComponent } from './user/connection/connection.component';
+import { SignComponent } from './user/sign/sign.component';
 import { ListComponent } from './recipe/list/list.component';
 import { DisplayComponent } from './recipe/display/display.component';
+import { MessageComponent } from './message/message.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    InscriptionComponent,
-    ConnectionComponent,
+    SignComponent,
     ListComponent,
-    DisplayComponent
+    DisplayComponent,
+    MessageComponent
   ],
   imports: [
     AppRoutingModule,

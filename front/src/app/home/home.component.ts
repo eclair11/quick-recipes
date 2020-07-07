@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { HomeService } from '../home/service/home.service';
+import { MessageService } from '../message/service/message.service';
 
 @Component({
   selector: 'app-home',
@@ -14,6 +15,7 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private service: HomeService,
+    private msgService: MessageService,
     private builder: FormBuilder,
     private router: Router,
     private renderer2: Renderer2,
@@ -52,7 +54,7 @@ export class HomeComponent implements OnInit {
       this.router.navigate(['/recipe/list/normal/' + key['search'].trim()]);
     }
     else {
-      console.log("error");
+      this.msgService.add("Veuillez saisir un nom de recette à chercher");
     }
   }
 
@@ -62,7 +64,7 @@ export class HomeComponent implements OnInit {
       this.router.navigate(['/recipe/list/special/' + key['search'].trim()]);
     }
     else {
-      console.log("error");
+      this.msgService.add("Veuillez saisir des ingrédients de recette à chercher");
     }
   }
 

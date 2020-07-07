@@ -1,7 +1,6 @@
 package fr.ujm.quick_recipes.api;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -28,7 +27,7 @@ import fr.ujm.quick_recipes.model.RecipeRepository;
 @CrossOrigin(origins = "http://localhost:4200")
 public class RecipeController {
 
-    private static final int PAGE_SIZE = 10;
+    private static final int PAGE_SIZE = 20;
 
     private String requestRecipes = "";
     private String requestPages = "";

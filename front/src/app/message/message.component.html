@@ -1,0 +1,4 @@
+<div *ngIf="service.message.length" class="text-center">
+  <a (click)="service.clear()"><i class="fas fa-window-close"></i></a>
+  <span>{{ service.message }}</span>
+</div>

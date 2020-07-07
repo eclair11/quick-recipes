@@ -1,0 +1,43 @@
+<div class="container login-container">
+  <div class="row">
+    <div class="col-md-6 login-form-1">
+      <h3>Connexion</h3>
+      <form [formGroup]="signIn" (ngSubmit)="signingIn()">
+        <div class="form-group">
+          <input type="text" class="form-control" formControlName="nickname" placeholder="Entrez votre pseudo"
+            value="" />
+        </div>
+        <div class="form-group">
+          <input type="password" class="form-control" formControlName="password" placeholder="Entrez votre mot de passe"
+            value="" />
+        </div>
+        <div class="form-group text-center">
+          <input type="submit" class="btnSubmit" value="Se connecter" />
+        </div>
+      </form>
+    </div>
+    <div class="col-md-6 login-form-2">
+      <div class="login-logo">
+        <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt="" />
+      </div>
+      <h3>Inscription</h3>
+      <form [formGroup]="signUp" (ngSubmit)="signingUp()">
+        <div class="form-group">
+          <input type="text" class="form-control" formControlName="nickname" placeholder="Entrez votre pseudo"
+            value="" />
+        </div>
+        <div class="form-group">
+          <input type="password" class="form-control" formControlName="password1"
+            placeholder="Entrez votre mot de passe" value="" />
+        </div>
+        <div class="form-group">
+          <input type="password" class="form-control" formControlName="password2"
+            placeholder="Confirmez votre mot de passe" value="" />
+        </div>
+        <div class="form-group text-center">
+          <input type="submit" class="btnSubmit" value="S'inscrire" />
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
