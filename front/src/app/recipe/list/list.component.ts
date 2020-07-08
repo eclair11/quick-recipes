@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 
 import { Recipe } from '../model/recipe';
 import { RecipeService } from '../service/recipe.service';
@@ -11,7 +12,7 @@ import { RecipeService } from '../service/recipe.service';
 })
 export class ListComponent implements OnInit {
 
-  constructor(private service: RecipeService, private route: ActivatedRoute) { }
+  constructor(private service: RecipeService, private route: ActivatedRoute, private location: Location) { }
 
   key: string = this.route.snapshot.params['key'];
   type: string = this.route.snapshot.params['type'];
@@ -32,6 +33,10 @@ export class ListComponent implements OnInit {
 
   getPages = (): number => {
     return this.pages.length;
+  }
+
+  back() {
+    this.location.back();
   }
 
 }

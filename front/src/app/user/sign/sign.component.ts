@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Location } from '@angular/common';
 
 import { UserService } from '../service/user.service';
 import { MessageService } from 'src/app/message/service/message.service';
@@ -11,7 +12,10 @@ import { MessageService } from 'src/app/message/service/message.service';
 })
 export class SignComponent implements OnInit {
 
-  constructor(private service: UserService, private msgService: MessageService, private builder: FormBuilder) { }
+  constructor(private service: UserService,
+    private msgService: MessageService,
+    private builder: FormBuilder,
+    private location: Location) { }
 
   signUp: FormGroup;
   signIn: FormGroup;
@@ -46,6 +50,10 @@ export class SignComponent implements OnInit {
     else {
       this.msgService.add("Veuillez saisir un nom d'utilisateur et un mot de passe");
     }
+  }
+
+  back() {
+    this.location.back();
   }
 
 }
