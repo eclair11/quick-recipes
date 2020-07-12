@@ -109,14 +109,15 @@ public class RecipeController {
     private void requestSpecial(String key) {
         List<String> keys = new ArrayList<>();
         for (String k : key.split(",")) {
-            keys.add("\"*" + k.trim() + "*\"");
+            keys.add("'" + k.trim() + "'");
         }
-        key = String.join(" OR ", keys);
+        key = String.join(" OR i.name LIKE ", keys);
         System.err.println(key);
         this.requestRecipes = "Select r.id, r.name, r.picture From Recipe r, Ingredient i Where r.id = i.recipe AND "
-                + "i.name IN (SELECT name From Ingredient Where " + key + ")";
-        this.requestPages = "Select count(r.id) From Recipe r, Ingredient i Where r.id = i.recipe AND i.name IN (" + key
-                + ")";
+                + "i.name = " + key;
+        this.requestPages = "Select count(r.id) From Recipe r, Ingredient i Where r.id = i.recipe AND "
+                + "i.name = " + key;
+        System.err.println(requestRecipes);
     }
 
     private void requestCategory(String key) {

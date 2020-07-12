@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -14,6 +14,9 @@ import { SignComponent } from './user/sign/sign.component';
 import { ListComponent } from './recipe/list/list.component';
 import { DisplayComponent } from './recipe/display/display.component';
 import { MessageComponent } from './message/message.component';
+
+import { HttpInterceptorService } from './user/service/http-interceptor.service';
+import { UserService } from './user/service/user.service';
 
 @NgModule({
   declarations: [
@@ -35,7 +38,12 @@ import { MessageComponent } from './message/message.component';
     MatCardModule,
     MatListModule
   ],
-  providers: [],
+  providers: [
+    UserService,
+    {
+      provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 

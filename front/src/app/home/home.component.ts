@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 
 import { HomeService } from '../home/service/home.service';
 import { MessageService } from '../message/service/message.service';
+import { UserService } from '../user/service/user.service';
 
 @Component({
   selector: 'app-home',
@@ -16,6 +17,7 @@ export class HomeComponent implements OnInit {
   constructor(
     private service: HomeService,
     private msgService: MessageService,
+    private userService: UserService,
     private builder: FormBuilder,
     private router: Router,
     private renderer2: Renderer2,
@@ -74,6 +76,15 @@ export class HomeComponent implements OnInit {
 
   searchingRegion(key: string) {
     this.router.navigate(['/recipe/list/region/' + key]);
+  }
+
+  signingCheck(): boolean {
+    if (this.userService.signcheck()) {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 
 }
