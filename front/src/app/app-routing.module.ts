@@ -5,7 +5,8 @@ import { HomeComponent } from './home/home.component';
 import { SignComponent } from './user/sign/sign.component';
 import { ListComponent } from './recipe/list/list.component';
 import { DisplayComponent } from './recipe/display/display.component';
-
+import { AddComponent } from './admin/add/add.component';
+import { RemoveComponent } from './admin/remove/remove.component';
 import { AuthGuardService } from './user/service/auth-guard.service';
 
 const routes: Routes = [
@@ -13,7 +14,9 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'user/sign', component: SignComponent },
   { path: 'recipe/list/:type/:key', component: ListComponent },
-  { path: 'recipe/display/:id', component: DisplayComponent, canActivate: [AuthGuardService] }
+  { path: 'recipe/display/:id', component: DisplayComponent },
+  { path: 'admin/add', component: AddComponent, canActivate: [AuthGuardService] },
+  { path: 'admin/remove', component: RemoveComponent, canActivate: [AuthGuardService] }
 ];
 
 @NgModule({
