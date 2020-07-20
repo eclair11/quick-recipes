@@ -15,6 +15,7 @@ import { SignComponent } from './user/sign/sign.component';
 import { ListComponent } from './recipe/list/list.component';
 import { DisplayComponent } from './recipe/display/display.component';
 import { MessageComponent } from './message/message.component';
+import { MenuComponent } from './admin/menu/menu.component';
 import { AddComponent } from './admin/add/add.component';
 import { RemoveComponent } from './admin/remove/remove.component';
 import { HttpInterceptorService } from './user/service/http-interceptor.service';
@@ -28,6 +29,7 @@ import { UserService } from './user/service/user.service';
     ListComponent,
     DisplayComponent,
     MessageComponent,
+    MenuComponent,
     AddComponent,
     RemoveComponent
   ],
