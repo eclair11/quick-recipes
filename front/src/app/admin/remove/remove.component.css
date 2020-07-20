@@ -1,0 +1,24 @@
+i {
+  color: #fff;
+}
+
+.page-item:hover {
+  color: #fff;
+}
+
+.page-link:hover {
+  color: #fff;
+  background-color: #6f42c1;
+  text-decoration: none;
+}
+
+.notfound {
+  height: 30em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notfound h4 {
+  margin: 0;
+}

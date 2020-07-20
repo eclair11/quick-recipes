@@ -34,14 +34,12 @@ export class UserService {
     this.loading = true;
     this.http.post<User>(this.home + '/api/v1/users/signin', { nickname, password }).subscribe(
       (data) => {
-        console.log(data);
         sessionStorage.setItem("nickname", nickname);
         sessionStorage.setItem("token", "Bearer " + data['token'][0]);
         this.router.navigate(['/home']);
         this.loading = false;
       },
       (error) => {
-        console.log(error);
         this.service.add(error['error']['token'][0]);
         this.loading = false;
       }

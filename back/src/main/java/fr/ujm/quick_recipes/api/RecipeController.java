@@ -132,7 +132,7 @@ public class RecipeController {
         this.requestPages = "Select count(r.id) From Recipe r Where r.region LIKE '%" + key + "%'";
     }
 
-    private static <T> List<T> castList(Class<? extends T> clazz, Collection<?> c) {
+    public static <T> List<T> castList(Class<? extends T> clazz, Collection<?> c) {
         List<T> r = new ArrayList<T>(c.size());
         for (Object o : c) {
             r.add(clazz.cast(o));

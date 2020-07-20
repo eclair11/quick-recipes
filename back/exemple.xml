@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<recipes>
+	<recipe>
+		<name>...</name>
+		<region>...</region>
+		<discovery>...</discovery>
+		<author>...</author>
+		<calorie>...</calorie>
+		<history>...</history>
+		<category>
+			<cat>...</cat>
+			<cat>...</cat>
+			<cat>...</cat>
+		</category>
+		<ingredient>
+			<ing>...</ing>
+			<ing>...</ing>
+			<ing>...</ing>
+		</ingredient>
+		<preparation>
+			<pre>...</pre>
+			<pre>...</pre>
+			<pre>...</pre>
+		</preparation>
+		<picture>
+			<pic>...</pic>
+			<pic>...</pic>
+			<pic>...</pic>
+		</picture>
+	</recipe>
+</recipes>
