@@ -53,7 +53,59 @@ export class UserService {
   }
 
   signcheck = (): boolean => {
-    return !(sessionStorage.getItem('nickname') === null);
+    return !(sessionStorage.getItem("nickname") === null);
+  }
+
+  getFavorites = (): number[] => {
+    this.loading = true;
+    let favs = [];
+    this.http.get(this.home + '/api/v1/users/favorites/' + sessionStorage.getItem("nickname")).subscribe(
+      (data) => {
+        data['favs'][0].forEach((e: number) => {
+          favs.push(e);
+        });
+        this.loading = false;
+      },
+      (error) => {
+        console.log(error);
+        this.loading = false;
+      }
+    );
+    return favs;
+  }
+
+  addFavorite = (id: number): void => {
+    this.loading = true;
+    const formData = new FormData();
+    formData.append("recipe", id + "");
+    formData.append("user", sessionStorage.getItem("nickname"));
+    this.http.put(this.home + '/api/v1/users/favorite', formData).subscribe(
+      () => {
+        this.loading = false;
+        window.location.reload();
+      },
+      (error) => {
+        console.log(error);
+        this.loading = false;
+      }
+    );
+  }
+
+  removeFavorite = (id: number): void => {
+    this.loading = true;
+    const formData = new FormData();
+    formData.append("recipe", id + "");
+    formData.append("user", sessionStorage.getItem("nickname"));
+    this.http.put(this.home + '/api/v1/users/unfavorite', formData).subscribe(
+      () => {
+        this.loading = false;
+        window.location.reload();
+      },
+      (error) => {
+        console.log(error);
+        this.loading = false;
+      }
+    );
   }
 
 }

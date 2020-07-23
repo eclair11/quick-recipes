@@ -224,8 +224,8 @@ public class AdminController {
     }
 
     @Transactional
-    @PutMapping(value = "/delete/{removes}")
-    public ResponseEntity<String> deleteRecipes(@PathVariable Long[] removes) {
+    @PutMapping(value = "/delete/{removes}", produces = { "application/json" })
+    public ResponseEntity<String> removeRecipes(@PathVariable Long[] removes) {
         for (Long id : removes) {
             Recipe r = recRepo.findById(id).get();
             catRepo.deleteByRecipe(r);

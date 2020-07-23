@@ -2,11 +2,11 @@ package fr.ujm.quick_recipes.model;
 
 import java.util.List;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 @Entity
 public class User {
@@ -18,8 +18,8 @@ public class User {
     private String nickname;
     private String password;
 
-    @OneToMany
-    private List<Recipe> favorites;
+    @ElementCollection(targetClass = Long.class)
+    private List<Long> favorites;
 
     public User() {
     }
@@ -48,11 +48,11 @@ public class User {
         this.password = password;
     }
 
-    public List<Recipe> getFavorites() {
+    public List<Long> getFavorites() {
         return favorites;
     }
 
-    public void setFavorites(List<Recipe> favorites) {
+    public void setFavorites(List<Long> favorites) {
         this.favorites = favorites;
     }
 

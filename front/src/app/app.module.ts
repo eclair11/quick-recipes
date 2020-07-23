@@ -20,6 +20,7 @@ import { AddComponent } from './admin/add/add.component';
 import { RemoveComponent } from './admin/remove/remove.component';
 import { HttpInterceptorService } from './user/service/http-interceptor.service';
 import { UserService } from './user/service/user.service';
+import { FavoriteComponent } from './user/favorite/favorite.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { UserService } from './user/service/user.service';
     MessageComponent,
     MenuComponent,
     AddComponent,
-    RemoveComponent
+    RemoveComponent,
+    FavoriteComponent
   ],
   imports: [
     AppRoutingModule,
