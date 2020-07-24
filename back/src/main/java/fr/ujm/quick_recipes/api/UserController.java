@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,11 @@ import fr.ujm.quick_recipes.model.UserRepository;
 @RequestMapping("/api/v1/users")
 @CrossOrigin(origins = "http://localhost:4200")
 public class UserController {
+
+    private static final int PAGE_SIZE = 100;
+
+    private String requestRecipes = "";
+    private String requestPages = "";
 
     PasswordEncoder encoder = new BCryptPasswordEncoder();
 
@@ -89,6 +95,28 @@ public class UserController {
         }
         UserDetails userDetails = userDetailsService.loadUserByUsername(nickname);
         body.add("token", jwtTokenUtil.generateToken(userDetails));
+        return ResponseEntity.status(HttpStatus.OK).body(body);
+    }
+
+    @GetMapping(value = "/list/{nickname}/{page}", produces = { "application/json" })
+    public ResponseEntity<MultiValueMap<String, Object>> getListFavorites(@PathVariable String nickname,
+            @PathVariable int page) {
+        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+        User user = userRepo.findUserByNickname(nickname).get();
+        if (user.getFavorites().size() == 0) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+        String favs = user.getFavorites().toString().replace("[", "(").replace("]", ")");
+        this.requestRecipes = "Select r.id, r.name From Recipe r Where r.id In " + favs;
+        this.requestPages = "Select count(r.id) From Recipe r Where r.id In " + favs;
+        Query queryRecipes = entityManager.createQuery(this.requestRecipes);
+        Query queryPages = entityManager.createQuery(this.requestPages);
+        queryRecipes.setFirstResult((page - 1) * PAGE_SIZE);
+        queryRecipes.setMaxResults(PAGE_SIZE);
+        List<Object> recipes = RecipeController.castList(Object.class, queryRecipes.getResultList());
+        int pages = (Integer.valueOf(queryPages.getSingleResult().toString()) + PAGE_SIZE - 1) / PAGE_SIZE;
+        body.add("recipes", recipes);
+        body.add("pages", pages);
         return ResponseEntity.status(HttpStatus.OK).body(body);
     }
 

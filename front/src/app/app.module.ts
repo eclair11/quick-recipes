@@ -12,6 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { SignComponent } from './user/sign/sign.component';
+import { FavoriteComponent } from './user/favorite/favorite.component';
 import { ListComponent } from './recipe/list/list.component';
 import { DisplayComponent } from './recipe/display/display.component';
 import { MessageComponent } from './message/message.component';
@@ -20,20 +21,19 @@ import { AddComponent } from './admin/add/add.component';
 import { RemoveComponent } from './admin/remove/remove.component';
 import { HttpInterceptorService } from './user/service/http-interceptor.service';
 import { UserService } from './user/service/user.service';
-import { FavoriteComponent } from './user/favorite/favorite.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     SignComponent,
+    FavoriteComponent,
     ListComponent,
     DisplayComponent,
     MessageComponent,
     MenuComponent,
     AddComponent,
-    RemoveComponent,
-    FavoriteComponent
+    RemoveComponent
   ],
   imports: [
     AppRoutingModule,

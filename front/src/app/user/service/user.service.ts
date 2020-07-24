@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 import { User } from '../model/user';
+import { Recipe } from 'src/app/recipe/model/recipe';
 import { MessageService } from '../../message/service/message.service';
 
 @Injectable({
@@ -54,6 +55,28 @@ export class UserService {
 
   signcheck = (): boolean => {
     return !(sessionStorage.getItem("nickname") === null);
+  }
+
+  getListFavorites = (page: number, recipes: Recipe[], pages: number[]): void => {
+    this.loading = true;
+    this.http.get(this.home + '/api/v1/users/list/' + sessionStorage.getItem("nickname") + '/' + page).subscribe(
+      (data) => {
+        for (let i = 0; i < data['recipes'][0].length; i++) {
+          const recipe = new Recipe();
+          recipe.id = data['recipes'][0][i][0];
+          recipe.name = data['recipes'][0][i][1];
+          recipes.push(recipe);
+        }
+        for (let i = 1; i <= data['pages'][0]; i++) {
+          pages.push(i);
+        }
+        this.loading = false;
+      },
+      (error) => {
+        console.log(error);
+        this.loading = false;
+      }
+    );
   }
 
   getFavorites = (): number[] => {

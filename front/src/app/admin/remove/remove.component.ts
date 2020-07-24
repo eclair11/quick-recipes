@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { Recipe } from 'src/app/recipe/model/recipe';
@@ -12,7 +11,7 @@ import { AdminService } from '../service/admin.service';
 })
 export class RemoveComponent implements OnInit {
 
-  constructor(private service: AdminService, private route: ActivatedRoute, private location: Location) { }
+  constructor(private service: AdminService, private location: Location) { }
 
   recipes: Recipe[] = [];
   removes: number[] = [];
