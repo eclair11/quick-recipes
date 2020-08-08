@@ -17,6 +17,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.jsonwebtoken.ExpiredJwtException;
 
+/**
+ * Class to check token validation during requests.
+ */
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
@@ -26,6 +29,13 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Autowired
     JwtUserDetailsService jwtUserDetailsService;
 
+    /**
+     * @param request
+     * @param response
+     * @param chain
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {

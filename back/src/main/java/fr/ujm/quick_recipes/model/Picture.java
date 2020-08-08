@@ -6,6 +6,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+/**
+ * Class to handle the Picture object.
+ * 
+ * @author Elias Romdan
+ */
 @Entity
 public class Picture {
 
@@ -21,26 +26,44 @@ public class Picture {
     public Picture() {
     }
 
+    /**
+     * @return Long
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * @param id
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     * @return String
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * @return Recipe
+     */
     public Recipe getRecipe() {
         return recipe;
     }
 
+    /**
+     * @param recipe
+     */
     public void setRecipe(Recipe recipe) {
         this.recipe = recipe;
     }

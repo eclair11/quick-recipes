@@ -12,12 +12,20 @@ import org.springframework.stereotype.Service;
 import fr.ujm.quick_recipes.model.User;
 import fr.ujm.quick_recipes.model.UserRepository;
 
+/**
+ * Class to handle connection to user account.
+ */
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
 
     @Autowired
     UserRepository UserRepo;
 
+    /**
+     * @param nickname
+     * @return UserDetails
+     * @throws UsernameNotFoundException
+     */
     public UserDetails loadUserByUsername(String nickname) throws UsernameNotFoundException {
         Optional<User> user = UserRepo.findUserByNickname(nickname);
         if (user == null) {

@@ -22,14 +22,23 @@ import org.springframework.web.bind.annotation.RestController;
 import fr.ujm.quick_recipes.model.Recipe;
 import fr.ujm.quick_recipes.model.RecipeRepository;
 
+/**
+ * REST controller to handle API in relation with the Recipe object.
+ * 
+ * @author Elias Romdan
+ */
 @RestController
 @RequestMapping("/api/v1/recipes")
 @CrossOrigin(origins = "http://localhost:4200")
 public class RecipeController {
 
+    /* Set the maximum number of recipes displayed in one page */
     private static final int PAGE_SIZE = 20;
 
+    /* Object to handle SQL request to find recipes */
     private String requestRecipes = "";
+
+    /* Object to handle SQL request to find the number of recipes */
     private String requestPages = "";
 
     @PersistenceContext
@@ -38,6 +47,11 @@ public class RecipeController {
     @Autowired
     RecipeRepository recipeRepo;
 
+    /**
+     * Send the list of all categories found in the database.
+     * 
+     * @return ResponseEntity<List<String>>
+     */
     @GetMapping(value = "/categories", produces = { "application/json" })
     public ResponseEntity<List<String>> getListCategories() {
         Query query = entityManager.createQuery("Select Distinct c.name From Category c");
@@ -45,6 +59,11 @@ public class RecipeController {
         return ResponseEntity.status(HttpStatus.OK).body(categories);
     }
 
+    /**
+     * Send the list of all regions found in the database.
+     * 
+     * @return ResponseEntity<List<String>>
+     */
     @GetMapping(value = "/regions", produces = { "application/json" })
     public ResponseEntity<List<String>> getListRegions() {
         Query query = entityManager.createQuery("Select Distinct r.region From Recipe r");
@@ -52,6 +71,15 @@ public class RecipeController {
         return ResponseEntity.status(HttpStatus.OK).body(regions);
     }
 
+    /**
+     * Send the list of recipes (id, name and cover picture) based on the search
+     * made by the user.
+     * 
+     * @param type the type of the search (by name, by ingredients, by region or by category)
+     * @param key the content of the search
+     * @param page number of page
+     * @return ResponseEntity<MultiValueMap<String, Object>>
+     */
     @GetMapping(value = "/list/{type}/{key}/{page}", produces = { "application/json" })
     public ResponseEntity<MultiValueMap<String, Object>> getListRecipes(@PathVariable String type,
             @PathVariable String key, @PathVariable int page) {
@@ -83,6 +111,12 @@ public class RecipeController {
         return ResponseEntity.status(HttpStatus.OK).body(body);
     }
 
+    /**
+     * Send a recipe object (with all informations) based on its identifier.
+     * 
+     * @param id identifier of the recipe selected by the user
+     * @return ResponseEntity<Recipe>
+     */
     @GetMapping(value = "/{id}", produces = { "application/json" })
     public ResponseEntity<Recipe> getRecipe(@PathVariable Long id) {
         Recipe recipe = recipeRepo.findById(id).get();
@@ -101,25 +135,38 @@ public class RecipeController {
         return ResponseEntity.status(HttpStatus.OK).body(recipe);
     }
 
+    /**
+     * SQL request to search recipes based on their name.
+     * 
+     * @param key name typed by the user
+     */
     private void requestNormal(String key) {
         this.requestRecipes = "Select r.id, r.name, r.picture From Recipe r Where r.name LIKE '%" + key + "%'";
         this.requestPages = "Select count(r.id) From Recipe r Where r.name LIKE '%" + key + "%'";
     }
 
+    /**
+     * SQL request to search recipes based on their ingredients.
+     * 
+     * @param key list of ingredients typed by the user
+     */
     private void requestSpecial(String key) {
         List<String> keys = new ArrayList<>();
         for (String k : key.split(",")) {
-            keys.add("'" + k.trim() + "'");
+            keys.add("'%" + k.trim() + "%'");
         }
-        key = String.join(" OR i.name LIKE ", keys);
-        System.err.println(key);
+        String ings = String.join(" OR i.name LIKE ", keys);
         this.requestRecipes = "Select r.id, r.name, r.picture From Recipe r, Ingredient i Where r.id = i.recipe AND "
-                + "i.name = " + key;
+                + "(i.name LIKE " + ings + ")";
         this.requestPages = "Select count(r.id) From Recipe r, Ingredient i Where r.id = i.recipe AND "
-                + "i.name = " + key;
-        System.err.println(requestRecipes);
+                + "(i.name LIKE " + ings + ")";
     }
 
+    /**
+     * SQL request to search recipes based on their category.
+     * 
+     * @param key category selected by the user
+     */
     private void requestCategory(String key) {
         this.requestRecipes = "Select r.id, r.name, r.picture From Recipe r, Category c Where r.id = c.recipe AND c.name LIKE '%"
                 + key + "%'";
@@ -127,11 +174,23 @@ public class RecipeController {
                 + key + "%'";
     }
 
+    /**
+     * SQL request to search recipes based on their region.
+     * 
+     * @param key region selected by the user
+     */
     private void requestRegion(String key) {
         this.requestRecipes = "Select r.id, r.name, r.picture From Recipe r Where r.region LIKE '%" + key + "%'";
         this.requestPages = "Select count(r.id) From Recipe r Where r.region LIKE '%" + key + "%'";
     }
 
+    /**
+     * Function to avoid the unchecked conversion warning.
+     * 
+     * @param clazz
+     * @param c
+     * @return List<T>
+     */
     public static <T> List<T> castList(Class<? extends T> clazz, Collection<?> c) {
         List<T> r = new ArrayList<T>(c.size());
         for (Object o : c) {

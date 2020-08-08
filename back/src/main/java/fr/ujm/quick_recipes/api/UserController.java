@@ -35,14 +35,23 @@ import fr.ujm.quick_recipes.model.JwtRequest;
 import fr.ujm.quick_recipes.model.User;
 import fr.ujm.quick_recipes.model.UserRepository;
 
+/**
+ * REST controller to handle API in relation with the User object.
+ * 
+ * @author Elias Romdan
+ */
 @RestController
 @RequestMapping("/api/v1/users")
 @CrossOrigin(origins = "http://localhost:4200")
 public class UserController {
 
+    /* Set the maximum number of recipes displayed in one page */
     private static final int PAGE_SIZE = 100;
 
+    /* Object to handle SQL request to find recipes */
     private String requestRecipes = "";
+
+    /* Object to handle SQL request to find the number of recipes */
     private String requestPages = "";
 
     PasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -62,6 +71,12 @@ public class UserController {
     @Autowired
     UserRepository userRepo;
 
+    /**
+     * Subscribe a user into the database using its nickname and password.
+     * 
+     * @param user User object
+     * @return ResponseEntity<MultiValueMap<String, String>>
+     */
     @PostMapping(value = "/signup", produces = { "application/json" })
     public ResponseEntity<MultiValueMap<String, String>> signUp(@RequestBody User user) {
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
@@ -79,6 +94,12 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(body);
     }
 
+    /**
+     * Connect a user to its account based on its nickname and password.
+     * 
+     * @param request User object
+     * @return ResponseEntity<MultiValueMap<String, Object>>
+     */
     @PostMapping(value = "/signin", produces = { "application/json" })
     public ResponseEntity<MultiValueMap<String, Object>> signIn(@RequestBody JwtRequest request) {
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
@@ -98,6 +119,13 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(body);
     }
 
+    /**
+     * Send the list of the recipes put in the favorite by the user.
+     * 
+     * @param nickname user nickname
+     * @param page number of page
+     * @return ResponseEntity<MultiValueMap<String, Object>>
+     */
     @GetMapping(value = "/list/{nickname}/{page}", produces = { "application/json" })
     public ResponseEntity<MultiValueMap<String, Object>> getListFavorites(@PathVariable String nickname,
             @PathVariable int page) {
@@ -120,6 +148,12 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(body);
     }
 
+    /**
+     * Send the list of the recipes identifiers put in the favorite by the user.
+     * 
+     * @param nickname user nickname
+     * @return ResponseEntity<MultiValueMap<String, Object>>
+     */
     @GetMapping(value = "/favorites/{nickname}", produces = { "application/json" })
     public ResponseEntity<MultiValueMap<String, Object>> getFavorites(@PathVariable String nickname) {
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
@@ -128,6 +162,13 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(body);
     }
 
+    /**
+     * Add a recipe in the user favorites based on its identifier.
+     * 
+     * @param id recipe identifier
+     * @param nickname user nickname
+     * @return ResponseEntity<String>
+     */
     @PutMapping(value = "/favorite", consumes = { "multipart/form-data" }, produces = { "application/json" })
     public ResponseEntity<String> addFavorite(@RequestParam(name = "recipe") Long id,
             @RequestParam(name = "user") String nickname) {
@@ -139,6 +180,13 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
+    /**
+     * Remove a recipe from the user favorties based on its identifier.
+     * 
+     * @param id recipe identifier
+     * @param nickname user nickname
+     * @return ResponseEntity<String>
+     */
     @Transactional
     @PutMapping(value = "/unfavorite", consumes = { "multipart/form-data" }, produces = { "application/json" })
     public ResponseEntity<String> removeFavorite(@RequestParam(name = "recipe") Long id,

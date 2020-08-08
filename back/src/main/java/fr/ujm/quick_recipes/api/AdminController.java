@@ -44,14 +44,23 @@ import fr.ujm.quick_recipes.model.PreparationRepository;
 import fr.ujm.quick_recipes.model.Recipe;
 import fr.ujm.quick_recipes.model.RecipeRepository;
 
+/**
+ * REST controller to handle API in relation with the admin tasks.
+ * 
+ * @author Elias Romdan
+ */
 @RestController
 @RequestMapping("/api/v1/admin")
 @CrossOrigin(origins = "http://localhost:4200")
 public class AdminController {
 
+    /* Set the maximum number of recipes displayed in one page */
     private static final int PAGE_SIZE = 100;
 
+    /* Object to handle SQL request to find recipes */
     private String requestRecipes = "";
+
+    /* Object to handle SQL request to find the number of recipes */
     private String requestPages = "";
 
     @PersistenceContext
@@ -72,6 +81,13 @@ public class AdminController {
     @Autowired
     RecipeRepository recRepo;
 
+    /**
+     * Recieve a list of XML files as parameters, check them, then pass them to the
+     * parser function.
+     * 
+     * @param files list of files to parse
+     * @return ResponseEntity<String>
+     */
     @PostMapping(value = "/add", consumes = { "multipart/form-data" }, produces = { "application/json" })
     public ResponseEntity<String> addRecipes(@RequestParam(name = "files") MultipartFile[] files) {
         try {
@@ -91,6 +107,13 @@ public class AdminController {
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
+    /**
+     * Convert a file object from MultipartFile to File.
+     * 
+     * @param file the file to convert
+     * @return File
+     * @throws IOException
+     */
     private File convert(MultipartFile file) throws IOException {
         File convFile = new File(file.getOriginalFilename());
         convFile.createNewFile();
@@ -100,6 +123,14 @@ public class AdminController {
         return convFile;
     }
 
+    /**
+     * Parse the content of the file into objects, then save them in the database.
+     * 
+     * @param file the converted file ready to parse
+     * @throws SAXException
+     * @throws IOException
+     * @throws ParserConfigurationException
+     */
     private void parser(File file) throws SAXException, IOException, ParserConfigurationException {
         List<Recipe> recipes = new ArrayList<>();
         List<Category> categories = new ArrayList<>();
@@ -117,12 +148,11 @@ public class AdminController {
         doc.getDocumentElement().normalize();
         NodeList nodeRecipes = doc.getElementsByTagName("recipes").item(0).getChildNodes();
         int nodeRecipesLength = nodeRecipes.getLength();
-        System.err.println(nodeRecipes.item(1));
         for (int i = 0; i < nodeRecipesLength; i++) {
             current = nodeRecipes.item(i);
             if (current.getNodeType() == Node.ELEMENT_NODE && current.getNodeName() == "recipe") {
                 recipe = new Recipe();
-                NodeList nodeRecipe = doc.getElementsByTagName("recipe").item(i).getChildNodes();
+                NodeList nodeRecipe = current.getChildNodes();
                 int nodeRecipeLength = nodeRecipe.getLength();
                 for (int j = 0; j < nodeRecipeLength; j++) {
                     current = nodeRecipe.item(j);
@@ -140,17 +170,17 @@ public class AdminController {
                             recipe.setAuthor(current.getTextContent());
                             break;
                         case "calorie":
-                            recipe.setAuthor(current.getTextContent());
+                            recipe.setCalorie(current.getTextContent());
                             break;
                         case "history":
                             recipe.setHistory(current.getTextContent());
                             break;
-                        case "categories":
-                            NodeList nodeCategories = doc.getElementsByTagName("categories").item(j).getChildNodes();
+                        case "category":
+                            NodeList nodeCategories = current.getChildNodes();
                             int nodeCategoriesLength = nodeCategories.getLength();
                             for (int k = 0; k < nodeCategoriesLength; k++) {
                                 current = nodeCategories.item(k);
-                                if (current.getNodeName() == "category") {
+                                if (current.getNodeName() == "cat") {
                                     category = new Category();
                                     category.setName(current.getTextContent());
                                     category.setRecipe(recipe);
@@ -158,12 +188,12 @@ public class AdminController {
                                 }
                             }
                             break;
-                        case "pictures":
-                            NodeList nodePictures = doc.getElementsByTagName("pictures").item(j).getChildNodes();
+                        case "picture":
+                            NodeList nodePictures = current.getChildNodes();
                             int nodePicturesLength = nodePictures.getLength();
-                            for (int l = 0; l < nodePicturesLength; l++) {
-                                current = nodePictures.item(l);
-                                if (current.getNodeName() == "picture") {
+                            for (int k = 0; k < nodePicturesLength; k++) {
+                                current = nodePictures.item(k);
+                                if (current.getNodeName() == "pic") {
                                     picture = new Picture();
                                     picture.setName(current.getTextContent());
                                     picture.setRecipe(recipe);
@@ -171,12 +201,12 @@ public class AdminController {
                                 }
                             }
                             break;
-                        case "ingredients":
-                            NodeList nodeIngredients = doc.getElementsByTagName("ingredients").item(j).getChildNodes();
+                        case "ingredient":
+                            NodeList nodeIngredients = current.getChildNodes();
                             int nodeIngredientsLength = nodeIngredients.getLength();
-                            for (int m = 0; m < nodeIngredientsLength; m++) {
-                                current = nodeIngredients.item(m);
-                                if (current.getNodeName() == "ingredient") {
+                            for (int k = 0; k < nodeIngredientsLength; k++) {
+                                current = nodeIngredients.item(k);
+                                if (current.getNodeName() == "ing") {
                                     ingredient = new Ingredient();
                                     ingredient.setName(current.getTextContent());
                                     ingredient.setRecipe(recipe);
@@ -184,13 +214,12 @@ public class AdminController {
                                 }
                             }
                             break;
-                        case "preparations":
-                            NodeList nodePreparations = doc.getElementsByTagName("preparations").item(j)
-                                    .getChildNodes();
+                        case "preparation":
+                            NodeList nodePreparations = current.getChildNodes();
                             int nodePreparationsLength = nodePreparations.getLength();
-                            for (int n = 0; n < nodePreparationsLength; n++) {
-                                current = nodePreparations.item(n);
-                                if (current.getNodeName() == "preparation") {
+                            for (int k = 0; k < nodePreparationsLength; k++) {
+                                current = nodePreparations.item(k);
+                                if (current.getNodeName() == "pre") {
                                     preparation = new Preparation();
                                     preparation.setName(current.getTextContent());
                                     preparation.setRecipe(recipe);
@@ -202,11 +231,23 @@ public class AdminController {
                             break;
                     }
                 }
+                recipe.setPicture(pictures.get(0).getName());
                 recipes.add(recipe);
             }
         }
+        recRepo.saveAll(recipes);
+        catRepo.saveAll(categories);
+        picRepo.saveAll(pictures);
+        ingRepo.saveAll(ingredients);
+        preRepo.saveAll(preparations);
     }
 
+    /**
+     * Get the list of all the recipes found in the database.
+     * 
+     * @param page number of page
+     * @return ResponseEntity<MultiValueMap<String, Object>>
+     */
     @GetMapping(value = "/get/{page}", produces = { "application/json" })
     public ResponseEntity<MultiValueMap<String, Object>> getRecipes(@PathVariable int page) {
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
@@ -223,6 +264,13 @@ public class AdminController {
         return ResponseEntity.status(HttpStatus.OK).body(body);
     }
 
+    /**
+     * Remove the recipes from the database using their identifiers passed as
+     * parameters.
+     * 
+     * @param removes list of recipes identifiers
+     * @return ResponseEntity<String>
+     */
     @Transactional
     @PutMapping(value = "/delete/{removes}", produces = { "application/json" })
     public ResponseEntity<String> removeRecipes(@PathVariable Long[] removes) {
