@@ -16,3 +16,4 @@ target/
 
 # Images
 src/main/resources/static/img
+src/test/resources/static/img
