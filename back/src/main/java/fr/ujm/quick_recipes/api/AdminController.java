@@ -3,6 +3,10 @@ package fr.ujm.quick_recipes.api;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,6 +60,15 @@ public class AdminController {
 
     /* Set the maximum number of recipes displayed in one page */
     private static final int PAGE_SIZE = 100;
+
+    /* Set the path where files are saved */
+    private static final String PATH_FILES = "./src/main/resources/static/xml/";
+
+    /* Set the path where pictures are saved */
+    private static final String PATH_UPLOAD = "./src/main/resources/static/img/";
+
+    /* Set the path to access the pictures */
+    private static final String PATH_ACCESS = "http://localhost:8080/img/";
 
     /* Object to handle SQL request to find recipes */
     private String requestRecipes = "";
@@ -115,7 +128,7 @@ public class AdminController {
      * @throws IOException
      */
     private File convert(MultipartFile file) throws IOException {
-        File convFile = new File(file.getOriginalFilename());
+        File convFile = new File(PATH_FILES + file.getOriginalFilename());
         convFile.createNewFile();
         FileOutputStream fos = new FileOutputStream(convFile);
         fos.write(file.getBytes());
@@ -194,8 +207,9 @@ public class AdminController {
                             for (int k = 0; k < nodePicturesLength; k++) {
                                 current = nodePictures.item(k);
                                 if (current.getNodeName() == "pic") {
+                                    String path = download(current.getTextContent());
                                     picture = new Picture();
-                                    picture.setName(current.getTextContent());
+                                    picture.setName(path);
                                     picture.setRecipe(recipe);
                                     pictures.add(picture);
                                 }
@@ -240,6 +254,27 @@ public class AdminController {
         picRepo.saveAll(pictures);
         ingRepo.saveAll(ingredients);
         preRepo.saveAll(preparations);
+    }
+
+    /**
+     * Save pictures into the server from their link.
+     * 
+     * @param link
+     * @throws IOException
+     * @return String
+     */
+    private String download(String link) throws IOException {
+        String name = link.substring(link.lastIndexOf("/") + 1);
+        try {
+            URL url = new URL("file:///" + link);
+            ReadableByteChannel readableByteChannel = Channels.newChannel(url.openStream());
+            FileOutputStream fileOutputStream = new FileOutputStream(PATH_UPLOAD + name);
+            fileOutputStream.getChannel().transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
+            fileOutputStream.close();
+        } catch (MalformedURLException e) {
+            System.err.println(e);
+        }
+        return PATH_ACCESS + name;
     }
 
     /**

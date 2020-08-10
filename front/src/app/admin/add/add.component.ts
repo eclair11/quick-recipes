@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 
 import { AdminService } from '../service/admin.service';
+import { MessageService } from 'src/app/message/service/message.service';
 
 @Component({
   selector: 'app-add',
@@ -10,7 +11,7 @@ import { AdminService } from '../service/admin.service';
 })
 export class AddComponent implements OnInit {
 
-  constructor(private service: AdminService, private location: Location) { }
+  constructor(private service: AdminService, private messageService: MessageService, private location: Location) { }
 
   files: File[] = [];
 
@@ -29,7 +30,13 @@ export class AddComponent implements OnInit {
   }
 
   sendAll() {
-    this.service.addRecipes(this.files);
+    if (this.files.length) {
+      this.service.addRecipes(this.files);
+      this.files = [];
+    }
+    else {
+      this.messageService.add("Veuillez ajouter des fichiers");
+    }
   }
 
   back() {

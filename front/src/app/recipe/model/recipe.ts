@@ -1,3 +1,5 @@
+import { SafeUrl } from '@angular/platform-browser';
+
 export class Recipe {
 
   id: number;
@@ -6,10 +8,10 @@ export class Recipe {
   discovery: string;
   author: string;
   calorie: string;
-  picture: string;
+  picture: SafeUrl;
   history: string;
   categories: string[];
-  pictures: string[];
+  pictures: SafeUrl[] = [];
   ingredients: string[];
   preparations: string[];
 

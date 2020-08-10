@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Recipe } from 'src/app/recipe/model/recipe';
+import { MessageService } from 'src/app/message/service/message.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private service: MessageService) { }
 
   home: string = 'http://localhost:8080';
   loading: boolean = false;
@@ -23,10 +24,12 @@ export class AdminService {
       (data) => {
         console.log(data);
         this.loading = false;
+        this.service.add("Fichiers ajoutés avec succès");
       },
       (error) => {
         console.log(error);
         this.loading = false;
+        this.service.add("Erreur lors de l'insertion des fichiers");
       }
     );
   }

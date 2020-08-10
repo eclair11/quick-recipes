@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { DomSanitizer } from '@angular/platform-browser';
 
 import { Recipe } from '../model/recipe';
 
@@ -8,7 +9,7 @@ import { Recipe } from '../model/recipe';
 })
 export class RecipeService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private sanitizer: DomSanitizer) { }
 
   home: string = 'http://localhost:8080';
   loading: boolean = false;
@@ -21,7 +22,7 @@ export class RecipeService {
           const recipe = new Recipe();
           recipe.id = data['recipes'][0][i][0];
           recipe.name = data['recipes'][0][i][1];
-          recipe.picture = data['recipes'][0][i][2];
+          recipe.picture = this.sanitizer.bypassSecurityTrustUrl(data['recipes'][0][i][2]);
           recipes.push(recipe);
         }
         for (let i = 1; i <= data['pages'][0]; i++) {
@@ -47,10 +48,12 @@ export class RecipeService {
         recipe.discovery = data['discovery'];
         recipe.author = data['author'];
         recipe.calorie = data['calorie'];
-        recipe.picture = data['picture'];
+        recipe.picture = this.sanitizer.bypassSecurityTrustUrl(data['picture']);
         recipe.history = data['history'];
         recipe.categories = data['categories'];
-        recipe.pictures = data['pictures'];
+        data['pictures'].forEach((pic: string) => {
+          recipe.pictures.push(this.sanitizer.bypassSecurityTrustUrl(pic));
+        });
         recipe.ingredients = data['ingredients'];
         recipe.preparations = data['preparations'];
         this.loading = false;
