@@ -35,6 +35,9 @@ public class RecipeController {
     /* Set the maximum number of recipes displayed in one page */
     private static final int PAGE_SIZE = 20;
 
+    /* Set the maximum number of categories and regions displayed in the homepage */
+    private static final int MAX_SIZE = 25;
+
     /* Object to handle SQL request to find recipes */
     private String requestRecipes = "";
 
@@ -54,7 +57,8 @@ public class RecipeController {
      */
     @GetMapping(value = "/categories", produces = { "application/json" })
     public ResponseEntity<List<String>> getListCategories() {
-        Query query = entityManager.createQuery("Select Distinct c.name From Category c");
+        Query query = entityManager.createQuery("Select Distinct c.name From Category c Order By Rand()");
+        query.setMaxResults(MAX_SIZE);
         List<String> categories = castList(String.class, query.getResultList());
         return ResponseEntity.status(HttpStatus.OK).body(categories);
     }
@@ -66,7 +70,8 @@ public class RecipeController {
      */
     @GetMapping(value = "/regions", produces = { "application/json" })
     public ResponseEntity<List<String>> getListRegions() {
-        Query query = entityManager.createQuery("Select Distinct r.region From Recipe r");
+        Query query = entityManager.createQuery("Select Distinct r.region From Recipe r Order By Rand()");
+        query.setMaxResults(MAX_SIZE);
         List<String> regions = castList(String.class, query.getResultList());
         return ResponseEntity.status(HttpStatus.OK).body(regions);
     }
