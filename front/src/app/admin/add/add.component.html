@@ -3,7 +3,7 @@
     <button class="btn btn-danger col-1" type="button" (click)="back()">Retour</button>
     <h1 class="text-center col-11">Ajout des recettes</h1>
   </div>
-  <ngx-dropzone [expandable]="true" (change)="onSelect($event)">
+  <ngx-dropzone [expandable]="true" [accept]="'.xml'" (change)="onSelect($event)">
     <ngx-dropzone-label><h3>Ajoutez ou glissez ici vos fichiers XML des recettes</h3></ngx-dropzone-label>
     <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
       <ngx-dropzone-label>{{f.name}}</ngx-dropzone-label>

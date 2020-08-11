@@ -21,15 +21,14 @@ export class AdminService {
       formData.append("files", file);
     }
     this.http.post(this.home + '/api/v1/admin/add', formData).subscribe(
-      (data) => {
-        console.log(data);
-        this.loading = false;
+      () => {
         this.service.add("Fichiers ajoutés avec succès");
+        this.loading = false;
       },
       (error) => {
         console.log(error);
-        this.loading = false;
         this.service.add("Erreur lors de l'insertion des fichiers");
+        this.loading = false;
       }
     );
   }
