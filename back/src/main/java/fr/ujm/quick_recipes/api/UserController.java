@@ -54,6 +54,7 @@ public class UserController {
     /* Object to handle SQL request to find the number of recipes */
     private String requestPages = "";
 
+    /* Class used to encrypt password */
     PasswordEncoder encoder = new BCryptPasswordEncoder();
 
     @PersistenceContext
