@@ -89,6 +89,8 @@ public class RecipeController {
     public ResponseEntity<MultiValueMap<String, Object>> getListRecipes(@PathVariable String type,
             @PathVariable String key, @PathVariable int page) {
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+        String[] keys = key.split("[']");
+        key = String.join("''", keys);
         switch (type) {
             case "normal":
                 requestNormal(key);
