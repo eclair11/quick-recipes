@@ -119,21 +119,25 @@
       <span class="col-2"></span>
       <h5 class="text-center text-uppercase mb-0 col-5">par région</h5>
       <div class="mb-5"></div>
-      <table class="table table-striped text-white text-center col-5">
-        <tbody>
-          <tr *ngFor="let category of categories">
-            <td (click)="searchingCategory(category)">{{category}}</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="table-responsive col-5">
+        <table class="table table-striped text-white text-center">
+          <tbody>
+            <tr *ngFor="let category of categories">
+              <td (click)="searchingCategory(category)">{{category}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       <span class="col-2"></span>
-      <table class="table table-striped text-white text-center col-5">
-        <tbody>
-          <tr *ngFor="let region of regions">
-            <td (click)="searchingRegion(region)">{{region}}</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="table-responsive col-5">
+        <table class="table table-striped text-white text-center">
+          <tbody>
+            <tr *ngFor="let region of regions">
+              <td (click)="searchingRegion(region)">{{region}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </section>
