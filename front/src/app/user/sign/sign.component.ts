@@ -34,21 +34,47 @@ export class SignComponent implements OnInit {
 
   signingUp() {
     let key = JSON.parse(JSON.stringify(this.signUp.value));
-    if (key['nickname'] != null && key['password1'] != null && key['password1'] == key['password2']) {
-      this.service.signup(key['nickname'], key['password1']);
+    let name = key["nickname"];
+    let word1 = key["password1"];
+    let word2 = key["password2"];
+    if (name == null || name.length < 3 || name.length > 12) {
+      this.msgService.add("Veuillez saisir un pseudo entre 3 et 12 caractères");
+    }
+    else if (name.search("[^A-Za-z0-9]") != -1) {
+      this.msgService.add("Veuillez vérifier que le pseudo ne contient pas des caractères spéciaux");
+    }
+    else if (word1 == null || word1.length < 6 || word1.length > 12) {
+      this.msgService.add("Veuillez saisir un mot de passe entre 6 et 12 caractères");
+    }
+    else if (word1.search("[^A-Za-z0-9]") != -1) {
+      this.msgService.add("Veuillez vérifier que le mot de passe ne contient pas des caractères spéciaux");
+    }
+    else if (word1 != word2) {
+      this.msgService.add("Veuillez vérifier que les deux mots de passe sont égaux");
     }
     else {
-      this.msgService.add("Veuillez saisir un nom d'utilisateur et un mot de passe");
+      this.service.signup(name, word1);
     }
   }
 
   signingIn() {
     let key = JSON.parse(JSON.stringify(this.signIn.value));
-    if (key['nickname'] != null && key['password'] != null) {
-      this.service.signin(key['nickname'], key['password']);
+    let name = key["nickname"];
+    let word = key["password"];
+    if (name == null || name.length < 3 || name.length > 12) {
+      this.msgService.add("Veuillez saisir un pseudo entre 3 et 12 caractères");
+    }
+    else if (name.search("[^A-Za-z0-9]") != -1) {
+      this.msgService.add("Veuillez vérifier que le pseudo ne contient pas des caractères spéciaux");
+    }
+    else if (word == null || word.length < 6 || word.length > 12) {
+      this.msgService.add("Veuillez saisir un mot de passe entre 6 et 12 caractères");
+    }
+    else if (word.search("[^A-Za-z0-9]") != -1) {
+      this.msgService.add("Veuillez vérifier que le mot de passe ne contient pas des caractères spéciaux");
     }
     else {
-      this.msgService.add("Veuillez saisir un nom d'utilisateur et un mot de passe");
+      this.service.signin(name, word);
     }
   }
 

@@ -62,10 +62,10 @@ public class AdminController {
     private static final int PAGE_SIZE = 100;
 
     /* Set the path where files are saved */
-    private static final String PATH_FILES = "./src/main/resources/static/xml/";
+    private static final String PATH_FILES = "src/main/resources/static/xml/";
 
     /* Set the path where pictures are saved */
-    private static final String PATH_UPLOAD = "./src/main/resources/static/img/";
+    private static final String PATH_UPLOAD = "src/main/resources/static/img/";
 
     /* Set the path to access the pictures */
     private static final String PATH_ACCESS = "http://localhost:8080/img/";
@@ -155,6 +155,7 @@ public class AdminController {
         Picture picture = null;
         Ingredient ingredient = null;
         Preparation preparation = null;
+        boolean first = true;
         Node current = null;
         DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         Document doc = builder.parse(file);
@@ -212,8 +213,13 @@ public class AdminController {
                                     picture.setName(path);
                                     picture.setRecipe(recipe);
                                     pictures.add(picture);
+                                    if (first) {
+                                        recipe.setPicture(picture.getName());
+                                        first = false;
+                                    }
                                 }
                             }
+                            first = true;
                             break;
                         case "ingredient":
                             NodeList nodeIngredients = current.getChildNodes();
@@ -245,7 +251,6 @@ public class AdminController {
                             break;
                     }
                 }
-                recipe.setPicture(pictures.get(0).getName());
                 recipes.add(recipe);
             }
         }

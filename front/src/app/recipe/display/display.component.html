@@ -73,7 +73,7 @@
         <div class="card card-custom col">
           <div class="card-body">
             <h4 class="card-title text-center">Les ingrédients</h4>
-            <mat-list role="list">
+            <mat-list role="list" class="text-left">
               <mat-list-item *ngFor="let ing of recipe.ingredients" role="listitem">{{ing}}</mat-list-item>
             </mat-list>
           </div>
@@ -81,8 +81,8 @@
         <div class="card card-custom col">
           <div class="card-body">
             <h4 class="card-title text-center">Méthode de préparation</h4>
-            <mat-list role="list">
-              <mat-list-item *ngFor="let prep of recipe.preparations" role="listitem">{{prep}}</mat-list-item>
+            <mat-list role="list" class="text-left">
+              <mat-list-item *ngFor="let prep of recipe.preparations" role="listitem" class="custom-item">{{prep}}</mat-list-item>
             </mat-list>
           </div>
         </div>
