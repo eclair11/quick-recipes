@@ -163,9 +163,9 @@ public class RecipeController {
             keys.add("'%" + k.trim() + "%'");
         }
         String ings = String.join(" OR i.name LIKE ", keys);
-        this.requestRecipes = "Select r.id, r.name, r.picture From Recipe r, Ingredient i Where r.id = i.recipe AND "
+        this.requestRecipes = "Select Distinct r.id, r.name, r.picture From Recipe r, Ingredient i Where r.id = i.recipe AND "
                 + "(i.name LIKE " + ings + ")";
-        this.requestPages = "Select count(r.id) From Recipe r, Ingredient i Where r.id = i.recipe AND "
+        this.requestPages = "Select Distinct count(r.id) From Recipe r, Ingredient i Where r.id = i.recipe AND "
                 + "(i.name LIKE " + ings + ")";
     }
 
