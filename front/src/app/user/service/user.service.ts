@@ -57,6 +57,10 @@ export class UserService {
     return !(sessionStorage.getItem("nickname") === null);
   }
 
+  admincheck = (): boolean => {
+    return sessionStorage.getItem("nickname") === "adminqr";
+  }
+
   getListFavorites = (page: number, recipes: Recipe[], pages: number[]): void => {
     this.loading = true;
     this.http.get(this.home + '/api/v1/users/list/' + sessionStorage.getItem("nickname") + '/' + page).subscribe(

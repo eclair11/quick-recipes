@@ -79,12 +79,11 @@ export class HomeComponent implements OnInit {
   }
 
   signingCheck(): boolean {
-    if (this.userService.signcheck()) {
-      return true;
-    }
-    else {
-      return false;
-    }
+    return this.userService.signcheck();
+  }
+
+  adminCheck(): boolean {
+    return this.userService.admincheck();
   }
 
 }
