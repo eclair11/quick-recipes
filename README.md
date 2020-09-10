@@ -49,3 +49,6 @@ An application that allows any user to instantly access to useful informations a
 ## External code sources
 * castList: [here](https://stackoverflow.com/questions/367626/how-do-i-fix-the-expression-of-type-list-needs-unchecked-conversion)
 * Convert Multipartfile to File: [here](https://onecompiler.com/posts/3sqk7mxmy/how-to-convert-multipartfile-to-java-io-file-in-spring)
+
+## External logo
+* https://www.flaticon.com/authors/wanicon
